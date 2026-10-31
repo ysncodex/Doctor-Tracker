@@ -1,0 +1,151 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens.
+ * Palette: deep pine for brand and navigation, cool paper for the canvas,
+ * with ochre / periwinkle / rose reserved for data and status.
+ */
+@theme {
+  --color-paper: #f2f5f4;
+  --color-ink: #10272b;
+  --color-muted: #566a6d;
+  --color-line: #e1e8e6;
+  --color-line-strong: #cbd7d4;
+
+  --color-pine-50: #eaf4f1;
+  --color-pine-100: #d4e9e4;
+  --color-pine-200: #a8d2c9;
+  --color-pine-300: #78b8ab;
+  --color-pine-500: #1b8577;
+  --color-pine-600: #0f6f63;
+  --color-pine-700: #0b5a51;
+  --color-pine-800: #09463f;
+  --color-pine-900: #072f2b;
+  --color-pine-950: #051f1d;
+
+  --radius-panel: 1rem;
+  --radius-control: 0.625rem;
+}
+
+/* Fonts are loaded with next/font in app/layout.tsx and exposed as CSS variables. */
+@theme inline {
+  --font-sans:
+    var(--font-body-face), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-display: var(--font-display-face), ui-serif, Georgia, 'Times New Roman', serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* One visible, consistent keyboard focus style everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--color-pine-600);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-pine-100);
+    color: var(--color-pine-900);
+  }
+
+  /* Native date inputs have a wide intrinsic size on phones; let them shrink inside flex/grid. */
+  input[type='date'] {
+    min-width: 0;
+  }
+
+  /* Dates and counts line up in columns. */
+  table,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/*
+ * IMPORTANT: these are component classes, so they belong in `components`,
+ * not `utilities`. Tailwind v4 emits `utilities` after everything else in
+ * source order, so `.input-field { px-3 }` would override `pl-10` on inputs
+ * and push the text underneath the icons. In `components`, any utility class
+ * you add in JSX (pl-10, h-11, ...) wins, as expected.
+ */
+@layer components {
+  .page-container {
+    @apply mx-auto w-full max-w-[1480px] px-4 pb-12 pt-6 sm:px-6 lg:px-10 lg:pt-10;
+  }
+
+  .surface-card {
+    @apply rounded-[var(--radius-panel)] border border-line bg-white shadow-[0_1px_2px_rgb(16_39_43/0.04)];
+  }
+
+  .input-field {
+    @apply h-10 w-full rounded-[var(--radius-control)] border border-line-strong bg-white px-3 text-sm text-ink outline-none transition placeholder:text-muted/60 hover:border-pine-300 focus:border-pine-600 focus:ring-4 focus:ring-pine-600/15 focus-visible:outline-none aria-invalid:border-red-400 aria-invalid:focus:border-red-500 aria-invalid:focus:ring-red-100;
+  }
+
+  .btn-primary {
+    @apply inline-flex h-10 items-center justify-center gap-2 rounded-[var(--radius-control)] bg-pine-700 px-4 text-sm font-medium text-white shadow-[0_1px_2px_rgb(7_47_43/0.25)] transition hover:bg-pine-800 active:bg-pine-900 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-pine-700;
+  }
+
+  .btn-secondary {
+    @apply inline-flex h-10 items-center justify-center gap-2 rounded-[var(--radius-control)] border border-line-strong bg-white px-4 text-sm font-medium text-ink transition hover:border-pine-300 hover:bg-pine-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-line-strong disabled:hover:bg-white;
+  }
+
+  .btn-danger {
+    @apply inline-flex h-10 items-center justify-center gap-2 rounded-[var(--radius-control)] bg-red-600 px-4 text-sm font-medium text-white transition hover:bg-red-700 active:bg-red-800 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-xs font-medium text-muted;
+  }
+}
+
+/* Login page ECG trace: drawn once on load, skipped for reduced motion */
+@keyframes ecg-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ecg-trace {
+  stroke-dasharray: 1;
+  animation: ecg-draw 2.4s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ecg-trace {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
