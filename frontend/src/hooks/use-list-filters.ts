@@ -1,15 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDebouncedValue } from '@/hooks/use-debounced-value';
 
-/**
- * Filter + pagination state for list pages.
- *
- * - The search box updates instantly, but only the debounced value reaches the
- *   query params, so typing doesn't fire one request per keystroke.
- * - The page number is stored together with the filters it belongs to. When any
- *   filter changes, `page` falls back to 1 in the same render, with no effect
- *   and no wasted request for the old page.
- */
 export function useListFilters<F extends Record<string, string>>(
   initialFilters: F,
   debounceMs = 300
@@ -45,10 +36,19 @@ export function useListFilters<F extends Record<string, string>>(
 
   const params = useMemo(() => ({ ...filters, search, page }), [filters, search, page]);
 
-  return { params, page, setPage, searchInput, setSearchInput, filters, setFilter, reset, hasActiveFilters };
+  return {
+    params,
+    page,
+    setPage,
+    searchInput,
+    setSearchInput,
+    filters,
+    setFilter,
+    reset,
+    hasActiveFilters,
+  };
 }
 
-/** If the current page no longer exists (e.g. the last row on it was deleted), step back. */
 export function useClampPage(
   page: number,
   totalPages: number | undefined,

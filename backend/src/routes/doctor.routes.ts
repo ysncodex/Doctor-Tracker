@@ -12,7 +12,6 @@ router.use(authenticate);
 router.post('/', validate(createDoctorSchema), asyncHandler(controller.createDoctor));
 router.get('/', asyncHandler(controller.listDoctors));
 
-// Fixed paths must be registered before '/:id', or Express treats them as an id.
 router.get('/options', asyncHandler(controller.listDoctorOptions));
 router.get('/filter-options', asyncHandler(controller.getDoctorFilterOptions));
 

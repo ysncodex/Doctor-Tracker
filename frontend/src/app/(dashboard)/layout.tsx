@@ -14,8 +14,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
   const { data: user, isLoading, isFetching, isError, error, refetch } = useAuth();
 
-  // Only a 401 (or "no user") means the session is gone. A network error or 5xx
-  // must not bounce an authenticated admin to /login; offer a retry instead.
   const sessionExpired = isError && isAxiosError(error) && error.response?.status === 401;
   const serverProblem = isError && !sessionExpired;
   const shouldRedirect = !isLoading && !serverProblem && (!user || sessionExpired);

@@ -27,7 +27,9 @@ function buildKpis(overview: Overview): Kpi[] {
     },
     {
       label: 'Patients per doctor',
-      value: overview.averagePatientsPerDoctor.toLocaleString('en-US', { maximumFractionDigits: 1 }),
+      value: overview.averagePatientsPerDoctor.toLocaleString('en-US', {
+        maximumFractionDigits: 1,
+      }),
       note: 'Average caseload',
     },
     {
@@ -38,10 +40,6 @@ function buildKpis(overview: Overview): Kpi[] {
   ];
 }
 
-/**
- * One panel with four segments rather than four identical cards. The serif
- * figures are the visual anchor of the dashboard.
- */
 export function KpiStrip({ overview }: { overview: Overview }) {
   return (
     <section

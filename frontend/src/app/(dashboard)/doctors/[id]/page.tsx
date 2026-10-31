@@ -37,7 +37,6 @@ export default function DoctorDetailsPage() {
   const [deleteTarget, setDeleteTarget] = useState<Patient | null>(null);
   const { remove } = usePatientMutations();
 
-  // If the last patient on a page is deleted, step back instead of showing an empty page.
   useClampPage(page, patientsQuery.data?.pagination.totalPages, setPage);
 
   if (doctorQuery.isLoading) return <DoctorDetailsSkeleton />;
@@ -182,7 +181,6 @@ export default function DoctorDetailsPage() {
               aria-busy={isRefreshing}
               className={`transition-opacity ${isRefreshing ? 'opacity-60' : ''}`}
             >
-              {/* Phones: one card per patient. */}
               <ul className="space-y-3 p-4 md:hidden">
                 {patients.map((patient) => (
                   <li key={patient._id} className="rounded-xl border border-line p-4">
@@ -210,7 +208,6 @@ export default function DoctorDetailsPage() {
                 ))}
               </ul>
 
-              {/* Tablets and up: the table. */}
               <div className="hidden overflow-x-auto md:block">
                 <table className="w-full min-w-[650px] text-left text-sm">
                   <caption className="sr-only">Patients assigned to {doctor.name}</caption>

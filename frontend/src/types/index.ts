@@ -8,10 +8,8 @@ export interface Doctor {
   createdAt: string;
 }
 
-/** Free text. Any condition can be recorded; filter lists come from stored data. */
 export type PatientCondition = string;
 
-/** The small shape used by "assign a doctor" dropdowns. */
 export type DoctorOption = Pick<Doctor, '_id' | 'name' | 'specialization' | 'hospital'>;
 
 export type Gender = 'Male' | 'Female' | 'Other';
@@ -77,13 +75,11 @@ export interface DashboardStats {
     specialization: string;
     patientCount: number;
   }[];
-  /** Always the last 6 UTC months, oldest first, zero-filled by the server. */
   monthlyRegistrations: {
     year: number;
     month: number;
     total: number;
   }[];
-  /** Always the last 30 UTC days, oldest first, zero-filled by the server. */
   dailyRegistrations: {
     date: string;
     total: number;

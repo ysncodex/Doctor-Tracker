@@ -1,12 +1,3 @@
-/**
- * Date helpers for the filters.
- *
- * <input type="date"> gives a calendar day ("2026-10-31") in the admin's local
- * time. If we sent that bare string, the server would read it as a UTC day and,
- * for anyone not in UTC, records near midnight would land on the wrong day.
- * So the request carries the exact start and end *instants* of the local day.
- */
-
 export type DatePresetId = 'today' | '7d' | '30d' | 'month' | '90d';
 
 export const DATE_PRESETS: { id: DatePresetId; label: string }[] = [
@@ -22,7 +13,6 @@ export interface DateRangeValue {
   endDate: string;
 }
 
-/** Local calendar day as YYYY-MM-DD, the format <input type="date"> uses. */
 export function toInputDate(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -46,7 +36,10 @@ export function getPresetRange(id: DatePresetId, now: Date = new Date()): DateRa
     case '90d':
       return { startDate: daysBack(89), endDate: end };
     case 'month':
-      return { startDate: toInputDate(new Date(now.getFullYear(), now.getMonth(), 1)), endDate: end };
+      return {
+        startDate: toInputDate(new Date(now.getFullYear(), now.getMonth(), 1)),
+        endDate: end,
+      };
   }
 }
 
@@ -71,7 +64,6 @@ function endOfLocalDay(value: string): string | undefined {
   return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
 }
 
-/** Query params for the API: exact instants for the local day, or nothing when unset. */
 export function toDateParams(startDate: string, endDate: string) {
   return {
     startDate: startDate ? startOfLocalDay(startDate) : undefined,

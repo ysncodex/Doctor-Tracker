@@ -29,7 +29,6 @@ export function FilterPanel({
 
   return (
     <section aria-label="Filters" className="surface-card mb-4 p-4">
-      {/* Compact Header with Clear All button if active */}
       <div className="mb-3 flex items-center justify-between border-b border-line pb-2.5">
         <span className="text-xs font-semibold uppercase tracking-wider text-muted">
           Filter Options {activeCount > 0 && `(${activeCount} active)`}

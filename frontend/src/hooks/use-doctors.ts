@@ -15,7 +15,6 @@ export interface DoctorFilters {
   specialization?: string;
   hospital?: string;
   sort?: string;
-  /** Calendar days (YYYY-MM-DD) as picked in the UI. Converted to instants for the request. */
   startDate?: string;
   endDate?: string;
 }
@@ -49,7 +48,10 @@ export function useDoctorMutations() {
       const response = await api.post('/doctors', data);
       return response.data;
     },
-    onSuccess: () => { invalidate(); toast.success('Doctor created successfully'); },
+    onSuccess: () => {
+      invalidate();
+      toast.success('Doctor created successfully');
+    },
   });
 
   const update = useMutation({
@@ -57,7 +59,10 @@ export function useDoctorMutations() {
       const response = await api.patch(`/doctors/${id}`, data);
       return response.data;
     },
-    onSuccess: () => { invalidate(); toast.success('Doctor updated successfully'); },
+    onSuccess: () => {
+      invalidate();
+      toast.success('Doctor updated successfully');
+    },
   });
 
   const remove = useMutation({
@@ -65,7 +70,10 @@ export function useDoctorMutations() {
       const response = await api.delete(`/doctors/${id}`);
       return response.data;
     },
-    onSuccess: () => { invalidate(); toast.success('Doctor deleted successfully'); },
+    onSuccess: () => {
+      invalidate();
+      toast.success('Doctor deleted successfully');
+    },
   });
 
   return { create, update, remove };

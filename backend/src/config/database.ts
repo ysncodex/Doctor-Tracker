@@ -1,8 +1,6 @@
 import dns from 'node:dns';
 import mongoose from 'mongoose';
 
-// Some networks/ISPs refuse the SRV lookup that mongodb+srv:// needs.
-// Use public DNS in development only.
 if (process.env.NODE_ENV !== 'production') {
   dns.setServers(['8.8.8.8', '1.1.1.1']);
 }

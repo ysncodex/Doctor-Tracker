@@ -19,9 +19,6 @@ export async function getDashboardStats() {
     Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - (DAYS_SHOWN - 1))
   );
 
-  // Every query below is independent, so run them together. Each one is a count,
-  // an index-backed $match/$group, or a small projected read: no collection is
-  // ever loaded into application memory.
   const [
     totalDoctors,
     totalPatients,
@@ -116,7 +113,6 @@ export async function getDashboardStats() {
       .lean(),
   ]);
 
-  // Fold everything beyond the top conditions into one slice so the chart adds up to the total.
   const shownConditions = conditionRows.reduce((sum, row) => sum + row.count, 0);
   const remainder = totalPatients - shownConditions;
   const conditionBreakdown =

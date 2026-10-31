@@ -11,7 +11,6 @@ interface ModalProps {
   open: boolean;
   title: string;
   description?: string;
-  /** When false, Escape, backdrop click and the close button are disabled (e.g. while saving). */
   dismissible?: boolean;
   size?: 'sm' | 'md';
   onClose: () => void;
@@ -32,7 +31,6 @@ export function Modal({
   const dialogRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Scroll lock, initial focus, and focus restore.
   useEffect(() => {
     if (!open) return;
 
@@ -53,7 +51,6 @@ export function Modal({
     };
   }, [open]);
 
-  // Escape to close + keep Tab focus inside the dialog.
   useEffect(() => {
     if (!open) return;
 

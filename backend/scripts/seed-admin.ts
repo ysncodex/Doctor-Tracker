@@ -10,10 +10,6 @@ async function seedAdmin() {
   try {
     await connectDatabase();
 
-    // ==========================================
-    // 1. Seed Admin User
-    // ==========================================
-
     const adminEmail = 'admin@doctortracker.com';
     const adminPassword = process.env.ADMIN_PASSWORD;
 
@@ -37,10 +33,6 @@ async function seedAdmin() {
     );
 
     console.log('Admin account created or updated successfully');
-
-    // ==========================================
-    // 2. Seed 6 Test Doctor Profiles
-    // ==========================================
 
     const testDoctors = [
       {
@@ -98,10 +90,6 @@ async function seedAdmin() {
     );
 
     console.log('6 test doctor profiles created or updated successfully');
-
-    // ==========================================
-    // 3. Summary
-    // ==========================================
 
     console.log('\n================================');
     console.log('DATABASE SEEDING COMPLETED');

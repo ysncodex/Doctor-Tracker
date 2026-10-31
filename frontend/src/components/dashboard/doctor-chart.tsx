@@ -24,9 +24,19 @@ export function DoctorChart({ data }: { data: DashboardStats['patientsPerDoctor'
       ) : (
         <div style={{ height: Math.max(200, formatted.length * 38 + 20) }}>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={formatted} layout="vertical" margin={{ top: 0, right: 16, left: 0, bottom: 0 }}>
+            <BarChart
+              data={formatted}
+              layout="vertical"
+              margin={{ top: 0, right: 16, left: 0, bottom: 0 }}
+            >
               <CartesianGrid stroke="#e1e8e6" strokeDasharray="3 3" horizontal={false} />
-              <XAxis type="number" allowDecimals={false} axisLine={false} tickLine={false} tick={AXIS_TICK} />
+              <XAxis
+                type="number"
+                allowDecimals={false}
+                axisLine={false}
+                tickLine={false}
+                tick={AXIS_TICK}
+              />
               <YAxis
                 type="category"
                 dataKey="name"
@@ -40,7 +50,13 @@ export function DoctorChart({ data }: { data: DashboardStats['patientsPerDoctor'
                 labelFormatter={(_, payload) => payload?.[0]?.payload?.fullName ?? ''}
                 contentStyle={CHART_TOOLTIP_STYLE}
               />
-              <Bar dataKey="patients" name="Patients" fill="#0f6f63" radius={[0, 6, 6, 0]} maxBarSize={22} />
+              <Bar
+                dataKey="patients"
+                name="Patients"
+                fill="#0f6f63"
+                radius={[0, 6, 6, 0]}
+                maxBarSize={22}
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>

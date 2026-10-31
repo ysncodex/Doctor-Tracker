@@ -7,7 +7,6 @@ import { isAxiosError } from 'axios';
 import { BrandMark } from '@/components/shared/brand-mark';
 import { useAuth, useLogin } from '@/hooks/use-auth';
 
-// Pre-fill the demo account only during local development.
 const DEFAULT_EMAIL = process.env.NODE_ENV === 'development' ? 'admin@doctortracker.com' : '';
 
 export default function LoginPage() {
@@ -52,14 +51,12 @@ export default function LoginPage() {
 
   return (
     <main className="grid min-h-screen lg:grid-cols-[1.1fr_1fr]">
-      {/* Brand panel */}
       <section className="relative hidden flex-col justify-between overflow-hidden bg-pine-900 p-12 text-white lg:flex">
         <div className="relative z-10 flex items-center gap-3">
           <BrandMark className="h-10 w-10" />
           <span className="font-display text-2xl font-semibold tracking-tight">Doctor Tracker</span>
         </div>
 
-        {/* ECG trace: the one decorative element, drawn once on load */}
         <svg
           aria-hidden="true"
           viewBox="0 0 800 200"
@@ -93,7 +90,6 @@ export default function LoginPage() {
         </p>
       </section>
 
-      {/* Form panel */}
       <section className="flex items-center justify-center bg-paper px-6 py-12">
         <div className="w-full max-w-sm">
           <div className="mb-10 flex items-center gap-3 font-semibold text-ink lg:hidden">
@@ -103,13 +99,14 @@ export default function LoginPage() {
             <span className="font-display text-xl">Doctor Tracker</span>
           </div>
 
-          <h2 className="font-display text-4xl font-semibold tracking-tight text-ink">Welcome back</h2>
+          <h2 className="font-display text-4xl font-semibold tracking-tight text-ink">
+            Welcome back
+          </h2>
           <p className="mt-2 text-sm text-muted">
             Sign in to access your administration dashboard.
           </p>
 
           <form onSubmit={handleSubmit} noValidate={false} className="mt-8 space-y-5">
-            {/* Email */}
             <div>
               <label htmlFor="email" className="mb-2 block text-sm font-medium text-ink">
                 Email address
@@ -141,7 +138,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Password */}
             <div>
               <label htmlFor="password" className="mb-2 block text-sm font-medium text-ink">
                 Password

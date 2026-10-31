@@ -9,7 +9,6 @@ interface SelectFieldProps {
   disabled?: boolean;
 }
 
-/** Native <select> (best mobile + keyboard behaviour) with a visible label and a custom chevron. */
 export function SelectField({ label, value, onChange, children, disabled }: SelectFieldProps) {
   const id = useId();
 

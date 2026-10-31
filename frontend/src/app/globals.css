@@ -1,10 +1,5 @@
 @import 'tailwindcss';
 
-/*
- * Design tokens.
- * Palette: deep pine for brand and navigation, cool paper for the canvas,
- * with ochre / periwinkle / rose reserved for data and status.
- */
 @theme {
   --color-paper: #f2f5f4;
   --color-ink: #10272b;
@@ -27,7 +22,6 @@
   --radius-control: 0.625rem;
 }
 
-/* Fonts are loaded with next/font in app/layout.tsx and exposed as CSS variables. */
 @theme inline {
   --font-sans:
     var(--font-body-face), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
@@ -58,7 +52,6 @@
     cursor: pointer;
   }
 
-  /* One visible, consistent keyboard focus style everywhere. */
   :focus-visible {
     outline: 2px solid var(--color-pine-600);
     outline-offset: 2px;
@@ -69,7 +62,6 @@
     color: var(--color-pine-900);
   }
 
-  /* Native date inputs have a wide intrinsic size on phones; let them shrink inside flex/grid. */
   input[type='date'] {
     min-width: 0;
   }
@@ -81,13 +73,6 @@
   }
 }
 
-/*
- * IMPORTANT: these are component classes, so they belong in `components`,
- * not `utilities`. Tailwind v4 emits `utilities` after everything else in
- * source order, so `.input-field { px-3 }` would override `pl-10` on inputs
- * and push the text underneath the icons. In `components`, any utility class
- * you add in JSX (pl-10, h-11, ...) wins, as expected.
- */
 @layer components {
   .page-container {
     @apply mx-auto w-full max-w-[1480px] px-4 pb-12 pt-6 sm:px-6 lg:px-10 lg:pt-10;
@@ -118,7 +103,6 @@
   }
 }
 
-/* Login page ECG trace: drawn once on load, skipped for reduced motion */
 @keyframes ecg-draw {
   from {
     stroke-dashoffset: 1;

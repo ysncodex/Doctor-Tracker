@@ -5,7 +5,6 @@ interface ApiErrorBody {
   errors?: string[];
 }
 
-/** Return a safe, useful message from the API without exposing raw server errors. */
 export function getApiErrorMessage(error: unknown, fallback: string): string {
   if (!axios.isAxiosError<ApiErrorBody>(error)) return fallback;
 

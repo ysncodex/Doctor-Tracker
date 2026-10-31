@@ -6,7 +6,6 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 const router = Router();
 
 router.use(authenticate);
-
 router.get('/stats', asyncHandler(getStats));
 
 export default router;

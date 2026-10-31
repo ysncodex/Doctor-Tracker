@@ -43,7 +43,6 @@ const doctorSchema = new Schema<IDoctor>(
   { timestamps: true }
 );
 
-// Search and filtering indexes
 doctorSchema.index({ name: 1 });
 doctorSchema.index({ specialization: 1, createdAt: -1 });
 doctorSchema.index({ hospital: 1, createdAt: -1 });

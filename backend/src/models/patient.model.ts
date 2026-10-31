@@ -1,9 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-/**
- * Free-form on purpose: admins can record any condition, and the filter lists
- * are built from the values actually stored (see patient.service.ts).
- */
 export type PatientCondition = string;
 
 export interface IPatient extends Document {
@@ -56,7 +52,6 @@ const patientSchema = new Schema<IPatient>(
   { timestamps: true }
 );
 
-// Optimized patient filtering
 patientSchema.index({ doctorId: 1, createdAt: -1 });
 patientSchema.index({ condition: 1, createdAt: -1 });
 patientSchema.index({ gender: 1, createdAt: -1 });

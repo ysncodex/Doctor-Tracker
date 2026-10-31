@@ -34,7 +34,6 @@ export default function DoctorsPage() {
   });
   const { filters, setFilter, page, setPage } = list;
 
-  // `null` = closed, `{ doctor: null }` = create, `{ doctor }` = edit.
   const [formTarget, setFormTarget] = useState<{ doctor: Doctor | null } | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Doctor | null>(null);
 
@@ -217,7 +216,6 @@ export default function DoctorsPage() {
               aria-busy={isRefreshing}
               className={`transition-opacity ${isRefreshing ? 'opacity-60' : ''}`}
             >
-              {/* Phones and tablets: one card per doctor, nothing cut off or scrolled sideways. */}
               <ul className="grid gap-3 p-4 md:grid-cols-2 xl:hidden">
                 {data.data.map((doctor) => (
                   <DoctorCard
@@ -229,7 +227,6 @@ export default function DoctorsPage() {
                 ))}
               </ul>
 
-              {/* Large screens: the full table. */}
               <div className="hidden overflow-x-auto xl:block">
                 <table className="w-full min-w-[850px] text-left text-sm">
                   <caption className="sr-only">Doctors</caption>
@@ -319,7 +316,6 @@ interface DoctorRowProps {
   onDelete: (doctor: Doctor) => void;
 }
 
-/** Memoised so typing in the search box or opening a dialog does not re-render every row. */
 const DoctorRow = memo(function DoctorRow({ doctor, onEdit, onDelete }: DoctorRowProps) {
   return (
     <tr className="transition-colors hover:bg-pine-50/50">
@@ -379,7 +375,6 @@ const DoctorRow = memo(function DoctorRow({ doctor, onEdit, onDelete }: DoctorRo
   );
 });
 
-/** Mobile/tablet layout for one doctor. Same actions as the table row. */
 const DoctorCard = memo(function DoctorCard({ doctor, onEdit, onDelete }: DoctorRowProps) {
   return (
     <li className="rounded-xl border border-line p-4">

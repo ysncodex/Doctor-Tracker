@@ -4,7 +4,6 @@ import { QueryProvider } from '@/providers/query-provider';
 import { Toaster } from 'sonner';
 import './globals.css';
 
-// Self-hosted by Next at build time; no runtime request to Google.
 const display = Fraunces({
   subsets: ['latin'],
   variable: '--font-display-face',

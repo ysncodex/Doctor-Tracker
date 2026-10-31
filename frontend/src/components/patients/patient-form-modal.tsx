@@ -45,7 +45,6 @@ function toForm(patient: Patient | null, defaultDoctorId?: string): PatientFormS
 }
 
 interface PatientFormModalProps {
-  /** `null` means "create a new patient". */
   patient: Patient | null;
   doctors: DoctorOption[];
   isLoadingDoctors?: boolean;
@@ -55,7 +54,6 @@ interface PatientFormModalProps {
   lockDoctor?: boolean;
 }
 
-/** Mount only while visible, so form and mutation state reset on every open. */
 export function PatientFormModal({
   patient,
   doctors,
@@ -68,17 +66,21 @@ export function PatientFormModal({
   const uid = useId();
   const { create, update } = usePatientMutations();
   const conditionOptions = usePatientFilterOptions();
-  const conditionSuggestions = mergeSuggestions(SUGGESTED_CONDITIONS, conditionOptions.data?.conditions);
+  const conditionSuggestions = mergeSuggestions(
+    SUGGESTED_CONDITIONS,
+    conditionOptions.data?.conditions
+  );
   const [form, setForm] = useState<PatientFormState>(() => toForm(patient, defaultDoctorId));
 
   const isSaving = create.isPending || update.isPending;
   const mutationError = create.error ?? update.error;
   const errorMessage = mutationError
-    ? getApiErrorMessage(mutationError, 'Could not save patient. Please check the information and try again.')
+    ? getApiErrorMessage(
+        mutationError,
+        'Could not save patient. Please check the information and try again.'
+      )
     : null;
 
-  // The assigned doctor may be missing from the dropdown (e.g. more doctors than
-  // the options query loads). Keep them selectable so editing doesn't blank the field.
   const missingDoctorOption =
     form.doctorId && !doctors.some((doctor) => doctor._id === form.doctorId)
       ? (getDoctorName(patient?.doctorId) ?? 'Current doctor')

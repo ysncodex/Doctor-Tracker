@@ -27,7 +27,6 @@ interface PatientFilters {
 
 type SortSpec = Record<string, 1 | -1>;
 
-/** Whitelist: the client can only pick one of these, never pass raw sort keys. */
 const SORTS: Record<string, SortSpec> = {
   newest: { createdAt: -1, _id: -1 },
   oldest: { createdAt: 1, _id: 1 },
@@ -36,7 +35,6 @@ const SORTS: Record<string, SortSpec> = {
 
 const GENDERS = ['Male', 'Female', 'Other'];
 
-/** "0171-234", "+880 17" and similar are treated as a phone search, everything else as a name search. */
 const LOOKS_LIKE_PHONE = /^[\d+\-()\s]{3,}$/;
 
 async function ensureDoctorExists(doctorId: string) {
@@ -51,11 +49,6 @@ async function ensureDoctorExists(doctorId: string) {
   }
 }
 
-/**
- * Conditions are free text. Reuse the stored spelling when only the
- * capitalisation differs ("diabetes" -> "Diabetes") so the condition filter
- * never shows the same condition twice.
- */
 async function withCanonicalCondition(data: Record<string, unknown>, excludeId?: string) {
   if (typeof data.condition !== 'string' || !data.condition.trim()) return data;
 
@@ -123,7 +116,6 @@ export async function listPatients(filters: PatientFilters) {
     .limit(limit)
     .lean();
 
-  // Binary ordering puts "alan" after "Zoe"; use a case-insensitive order for names.
   if (sortKey === 'name') listQuery.collation({ locale: 'en', strength: 2 });
 
   const [patients, total] = await Promise.all([listQuery, Patient.countDocuments(query)]);
@@ -134,7 +126,6 @@ export async function listPatients(filters: PatientFilters) {
   };
 }
 
-/** Conditions that actually exist, used to build the condition filter and form suggestions. */
 export async function getPatientFilterOptions() {
   const conditions = await Patient.distinct('condition');
 

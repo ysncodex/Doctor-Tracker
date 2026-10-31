@@ -13,10 +13,6 @@ type Tone = keyof typeof TONES;
 
 const AUTO_TONES: Tone[] = ['pine', 'amber', 'indigo', 'rose', 'sky', 'violet'];
 
-/**
- * Conditions are free text, so colours cannot be hard-coded per value.
- * Hashing the label gives each condition a stable colour everywhere it appears.
- */
 export function toneFor(label: string): Tone {
   const key = label.trim().toLowerCase();
   let hash = 0;

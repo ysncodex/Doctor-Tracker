@@ -24,7 +24,6 @@ interface DoctorFilters {
 
 type SortSpec = Record<string, 1 | -1>;
 
-/** Whitelist: the client can only pick one of these, never pass raw sort keys. */
 const SORTS: Record<string, SortSpec> = {
   newest: { createdAt: -1, _id: -1 },
   oldest: { createdAt: 1, _id: 1 },
@@ -37,11 +36,6 @@ function readLabel(value: unknown): string | undefined {
   return typeof value === 'string' && value.trim() ? tidyLabel(value) : undefined;
 }
 
-/**
- * Specialization and hospital are free text, so keep their spelling consistent:
- * typing "cardiology" when "Cardiology" already exists reuses "Cardiology".
- * `distinct` on an indexed field is cheap and returns only the unique values.
- */
 async function withCanonicalLabels(data: Record<string, unknown>, excludeId?: string) {
   const result = { ...data };
 
@@ -82,7 +76,9 @@ export async function listDoctors(filters: DoctorFilters) {
   if (dateRange) query.createdAt = dateRange;
 
   const sortKey =
-    typeof filters.sort === 'string' && Object.hasOwn(SORTS, filters.sort) ? filters.sort : 'newest';
+    typeof filters.sort === 'string' && Object.hasOwn(SORTS, filters.sort)
+      ? filters.sort
+      : 'newest';
 
   const listQuery = Doctor.find(query)
     .select('name specialization hospital phone email createdAt')
@@ -91,7 +87,6 @@ export async function listDoctors(filters: DoctorFilters) {
     .limit(limit)
     .lean();
 
-  // Binary ordering puts "Dr. alan" after "Dr. Zoe"; use a case-insensitive order for names.
   if (sortKey === 'name') listQuery.collation({ locale: 'en', strength: 2 });
 
   const [doctors, total] = await Promise.all([listQuery, Doctor.countDocuments(query)]);
@@ -102,7 +97,6 @@ export async function listDoctors(filters: DoctorFilters) {
   };
 }
 
-/** Distinct values that actually exist, used to build the filter dropdowns. */
 export async function getDoctorFilterOptions() {
   const [specializations, hospitals] = await Promise.all([
     Doctor.distinct('specialization'),
@@ -117,7 +111,6 @@ export async function getDoctorFilterOptions() {
 
 const OPTIONS_LIMIT = 1000;
 
-/** Lightweight list for "assign a doctor" dropdowns. Not paginated, capped for safety. */
 export async function listDoctorOptions() {
   return Doctor.find()
     .select('name specialization hospital')

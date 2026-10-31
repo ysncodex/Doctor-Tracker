@@ -23,7 +23,6 @@ export default function DashboardPage() {
 
   if (isLoading) return <DashboardSkeleton />;
 
-  // Preserve cached data during background refetch failures.
   if (!data) return <DashboardError onRetry={() => refetch()} isRetrying={isFetching} />;
 
   return (
@@ -123,7 +122,6 @@ function RecentPatients({ patients }: { patients: RecentPatient[] }) {
         </div>
       ) : (
         <>
-          {/* Mobile and tablet: patient cards, matching the Patients page. */}
           <div className="md:grid-cols-2 xl:hidden">
             <ul className="grid gap-3 p-4 md:grid-cols-2">
               {patients.map((patient) => (
@@ -132,7 +130,6 @@ function RecentPatients({ patients }: { patients: RecentPatient[] }) {
             </ul>
           </div>
 
-          {/* Desktop: preserve the existing table layout. */}
           <div className="hidden overflow-x-auto xl:block">
             <table className="w-full min-w-[640px] text-left text-sm">
               <caption className="sr-only">Most recently registered patients</caption>
@@ -192,7 +189,6 @@ function RecentPatients({ patients }: { patients: RecentPatient[] }) {
   );
 }
 
-/** Mobile/tablet layout for recently registered patients. */
 function RecentPatientCard({ patient }: { patient: RecentPatient }) {
   return (
     <li className="rounded-xl border border-line p-4">
@@ -225,7 +221,6 @@ function RecentPatientCard({ patient }: { patient: RecentPatient }) {
   );
 }
 
-/** Reuses the same doctor navigation behavior as the Patients page. */
 function DoctorCell({ doctorId }: { doctorId: Patient['doctorId'] }) {
   const name = getDoctorName(doctorId);
   const id = getDoctorId(doctorId);

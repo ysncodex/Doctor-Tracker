@@ -8,7 +8,9 @@ import { CHART_TOOLTIP_STYLE, ChartEmpty, ChartPanel, SERIES_COLORS } from './ch
 const OTHER_COLOR = '#9db0ad';
 
 function colorFor(condition: string, index: number) {
-  return condition === 'Other conditions' ? OTHER_COLOR : SERIES_COLORS[index % SERIES_COLORS.length];
+  return condition === 'Other conditions'
+    ? OTHER_COLOR
+    : SERIES_COLORS[index % SERIES_COLORS.length];
 }
 
 export function ConditionsChart({ data }: { data: DashboardStats['conditionBreakdown'] }) {
@@ -17,7 +19,10 @@ export function ConditionsChart({ data }: { data: DashboardStats['conditionBreak
   return (
     <ChartPanel title="Conditions" description="What patients are being treated for">
       {total === 0 ? (
-        <ChartEmpty title="No patients yet" description="Conditions appear once patients are added." />
+        <ChartEmpty
+          title="No patients yet"
+          description="Conditions appear once patients are added."
+        />
       ) : (
         <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-center xl:flex-col 2xl:flex-row">
           <div className="relative h-[190px] w-[190px] shrink-0">

@@ -5,22 +5,16 @@ import { useId } from 'react';
 import { DATE_PRESETS, getPresetRange, toInputDate, type DateRangeValue } from '@/lib/date-range';
 
 interface DateRangeFilterProps {
-  /** e.g. "Joined" or "Registered", used in the labels. */
   label: string;
   value: DateRangeValue;
   onChange: (value: DateRangeValue) => void;
 }
 
-/**
- * Quick presets plus a custom From/To range.
- * Dates are calendar days in the admin's own timezone; see lib/date-range.ts.
- */
 export function DateRangeFilter({ label, value, onChange }: DateRangeFilterProps) {
   const uid = useId();
   const today = toInputDate(new Date());
 
   function setStart(startDate: string) {
-    // Keep the range valid if someone types a start after the current end.
     onChange({
       startDate,
       endDate: value.endDate && startDate > value.endDate ? startDate : value.endDate,

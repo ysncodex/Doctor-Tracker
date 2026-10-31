@@ -46,12 +46,7 @@ export function ConfirmDialog({
             Cancel
           </button>
 
-          <button
-            type="button"
-            onClick={onConfirm}
-            disabled={isPending}
-            className="btn-danger"
-          >
+          <button type="button" onClick={onConfirm} disabled={isPending} className="btn-danger">
             {isPending ? (
               <>
                 <Loader2 size={16} className="animate-spin" aria-hidden="true" />

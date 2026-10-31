@@ -21,12 +21,18 @@ interface Props {
   monthly: DashboardStats['monthlyRegistrations'];
 }
 
-// The server builds both series in UTC, so format them in UTC too. Formatting in
-// local time could shift a point to the neighbouring day or month.
-const dayLabel = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+const dayLabel = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
 const dayLong = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeZone: 'UTC' });
 const monthShort = new Intl.DateTimeFormat('en-US', { month: 'short', timeZone: 'UTC' });
-const monthLong = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const monthLong = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
 
 export function RegistrationsChart({ daily, monthly }: Props) {
   const [range, setRange] = useState<Range>('daily');
@@ -39,7 +45,11 @@ export function RegistrationsChart({ daily, monthly }: Props) {
         })
       : monthly.map((item) => {
           const date = new Date(Date.UTC(item.year, item.month - 1, 1));
-          return { label: monthShort.format(date), full: monthLong.format(date), total: item.total };
+          return {
+            label: monthShort.format(date),
+            full: monthLong.format(date),
+            total: item.total,
+          };
         });
 
   const sum = points.reduce((total, point) => total + point.total, 0);
@@ -48,7 +58,9 @@ export function RegistrationsChart({ daily, monthly }: Props) {
     <ChartPanel
       title="Patient registrations"
       description={
-        range === 'daily' ? 'New patients per day, last 30 days' : 'New patients per month, last 6 months'
+        range === 'daily'
+          ? 'New patients per day, last 30 days'
+          : 'New patients per month, last 6 months'
       }
       action={
         <div

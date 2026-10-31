@@ -9,9 +9,7 @@ export const authenticate: RequestHandler = (req, _res, next) => {
     if (!token) {
       throw new ApiError(401, 'Authentication required');
     }
-
     req.user = verifyToken(token);
-
     next();
   } catch {
     next(new ApiError(401, 'Invalid or expired authentication'));

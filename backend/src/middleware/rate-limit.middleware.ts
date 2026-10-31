@@ -1,9 +1,5 @@
 import rateLimit from 'express-rate-limit';
 
-/**
- * General API limiter. A single dashboard/list page makes several requests,
- * so this is generous; the login limiter below is the one that guards brute force.
- */
 export const apiRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 1000,
@@ -15,7 +11,6 @@ export const apiRateLimiter = rateLimit({
   },
 });
 
-/** Strict limiter for credential guessing. Successful sign-ins do not count. */
 export const loginRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 10,

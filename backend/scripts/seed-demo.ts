@@ -5,15 +5,6 @@ import { connectDatabase } from '../src/config/database.js';
 import { Doctor } from '../src/models/doctor.model.js';
 import { Patient } from '../src/models/patient.model.js';
 
-/**
- * Fictional demo data for local development and README screenshots.
- *
- * - Safe to run repeatedly: doctors are matched by email, patients by phone.
- * - Records are back-dated over the last ~6 months so the date filters and the
- *   dashboard trend charts have something to show.
- * - Uses a fixed seed, so every run produces the same dataset.
- */
-
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 function createRandom(seed: number) {
@@ -38,26 +29,122 @@ function daysAgo(days: number): Date {
 }
 
 const DOCTORS = [
-  { name: 'Dr. John Smith', specialization: 'Cardiology', hospital: 'City General Hospital', phone: '+8801700000001', email: 'john.smith@doctortracker.com', joinedDaysAgo: 175 },
-  { name: 'Dr. Sarah Ahmed', specialization: 'Neurology', hospital: 'Dhaka Medical College Hospital', phone: '+8801700000002', email: 'sarah.ahmed@doctortracker.com', joinedDaysAgo: 160 },
-  { name: 'Dr. Michael Brown', specialization: 'Dermatology', hospital: 'Square Hospital', phone: '+8801700000003', email: 'michael.brown@doctortracker.com', joinedDaysAgo: 120 },
-  { name: 'Dr. Emily Wilson', specialization: 'Pediatrics', hospital: 'United Hospital', phone: '+8801700000004', email: 'emily.wilson@doctortracker.com', joinedDaysAgo: 95 },
-  { name: 'Dr. David Lee', specialization: 'Orthopedics', hospital: 'Evercare Hospital Dhaka', phone: '+8801700000005', email: 'david.lee@doctortracker.com', joinedDaysAgo: 70 },
-  { name: 'Dr. Fatima Rahman', specialization: 'Gynecology', hospital: 'Ibn Sina Hospital', phone: '+8801700000006', email: 'fatima.rahman@doctortracker.com', joinedDaysAgo: 45 },
-  { name: 'Dr. Nadia Karim', specialization: 'Endocrinology', hospital: 'Labaid Specialized Hospital', phone: '+8801700000007', email: 'nadia.karim@doctortracker.com', joinedDaysAgo: 28 },
-  { name: 'Dr. Arif Hossain', specialization: 'Cardiology', hospital: 'Square Hospital', phone: '+8801700000008', email: 'arif.hossain@doctortracker.com', joinedDaysAgo: 9 },
+  {
+    name: 'Dr. John Smith',
+    specialization: 'Cardiology',
+    hospital: 'City General Hospital',
+    phone: '+8801700000001',
+    email: 'john.smith@doctortracker.com',
+    joinedDaysAgo: 175,
+  },
+  {
+    name: 'Dr. Sarah Ahmed',
+    specialization: 'Neurology',
+    hospital: 'Dhaka Medical College Hospital',
+    phone: '+8801700000002',
+    email: 'sarah.ahmed@doctortracker.com',
+    joinedDaysAgo: 160,
+  },
+  {
+    name: 'Dr. Michael Brown',
+    specialization: 'Dermatology',
+    hospital: 'Square Hospital',
+    phone: '+8801700000003',
+    email: 'michael.brown@doctortracker.com',
+    joinedDaysAgo: 120,
+  },
+  {
+    name: 'Dr. Emily Wilson',
+    specialization: 'Pediatrics',
+    hospital: 'United Hospital',
+    phone: '+8801700000004',
+    email: 'emily.wilson@doctortracker.com',
+    joinedDaysAgo: 95,
+  },
+  {
+    name: 'Dr. David Lee',
+    specialization: 'Orthopedics',
+    hospital: 'Evercare Hospital Dhaka',
+    phone: '+8801700000005',
+    email: 'david.lee@doctortracker.com',
+    joinedDaysAgo: 70,
+  },
+  {
+    name: 'Dr. Fatima Rahman',
+    specialization: 'Gynecology',
+    hospital: 'Ibn Sina Hospital',
+    phone: '+8801700000006',
+    email: 'fatima.rahman@doctortracker.com',
+    joinedDaysAgo: 45,
+  },
+  {
+    name: 'Dr. Nadia Karim',
+    specialization: 'Endocrinology',
+    hospital: 'Labaid Specialized Hospital',
+    phone: '+8801700000007',
+    email: 'nadia.karim@doctortracker.com',
+    joinedDaysAgo: 28,
+  },
+  {
+    name: 'Dr. Arif Hossain',
+    specialization: 'Cardiology',
+    hospital: 'Square Hospital',
+    phone: '+8801700000008',
+    email: 'arif.hossain@doctortracker.com',
+    joinedDaysAgo: 9,
+  },
 ];
 
-const FIRST_NAMES = ['Aarav', 'Maya', 'Imran', 'Sadia', 'Tanvir', 'Nusrat', 'Rafi', 'Farhana', 'Kamal', 'Lina', 'Habib', 'Mehnaz', 'Sohel', 'Tania', 'Rashed', 'Jannat', 'Shafiq', 'Rima', 'Anik', 'Sumaiya'];
-const LAST_NAMES = ['Rahman', 'Chowdhury', 'Islam', 'Hossain', 'Akter', 'Khan', 'Siddique', 'Begum', 'Uddin', 'Sarker', 'Mia', 'Das'];
+const FIRST_NAMES = [
+  'Aarav',
+  'Maya',
+  'Imran',
+  'Sadia',
+  'Tanvir',
+  'Nusrat',
+  'Rafi',
+  'Farhana',
+  'Kamal',
+  'Lina',
+  'Habib',
+  'Mehnaz',
+  'Sohel',
+  'Tania',
+  'Rashed',
+  'Jannat',
+  'Shafiq',
+  'Rima',
+  'Anik',
+  'Sumaiya',
+];
+const LAST_NAMES = [
+  'Rahman',
+  'Chowdhury',
+  'Islam',
+  'Hossain',
+  'Akter',
+  'Khan',
+  'Siddique',
+  'Begum',
+  'Uddin',
+  'Sarker',
+  'Mia',
+  'Das',
+];
 
-// Includes conditions beyond the original five, to exercise the dynamic filters.
 const CONDITIONS = [
-  'Diabetes', 'Diabetes', 'Diabetes',
-  'Hypertension', 'Hypertension', 'Hypertension',
-  'Heart Disease', 'Heart Disease',
-  'Asthma', 'Asthma',
-  'Migraine', 'Migraine',
+  'Diabetes',
+  'Diabetes',
+  'Diabetes',
+  'Hypertension',
+  'Hypertension',
+  'Hypertension',
+  'Heart Disease',
+  'Heart Disease',
+  'Asthma',
+  'Asthma',
+  'Migraine',
+  'Migraine',
   'Arthritis',
   'Thyroid Disorder',
   'Chronic Kidney Disease',
@@ -75,7 +162,6 @@ async function seedDemo() {
 
   await connectDatabase();
 
-  // Native collection access so we can set createdAt explicitly instead of "now".
   await Doctor.collection.bulkWrite(
     DOCTORS.map(({ joinedDaysAgo, ...doctor }) => {
       const joined = daysAgo(joinedDaysAgo);
@@ -85,8 +171,6 @@ async function seedDemo() {
           filter: { email: doctor.email },
           update: {
             $set: { ...doctor, updatedAt: new Date() },
-            // $min back-dates doctors that `npm run seed` already created "today",
-            // and sets the date for new ones.
             $min: { createdAt: joined },
           },
           upsert: true,
@@ -109,7 +193,6 @@ async function seedDemo() {
       1,
       Math.floor((Date.now() - new Date(doctor.createdAt).getTime()) / DAY_MS)
     );
-    // Skew towards recent months so the trend chart is not flat.
     const age = Math.floor(Math.pow(random(), 1.6) * Math.min(earliest, 175));
     const createdAt = daysAgo(age);
 
@@ -139,7 +222,9 @@ async function seedDemo() {
   console.log('DEMO DATA READY (fictional records)');
   console.log('================================');
   console.log(`Doctors:  ${DOCTORS.length}`);
-  console.log(`Patients: ${result.upsertedCount} added, ${PATIENT_COUNT - result.upsertedCount} already present`);
+  console.log(
+    `Patients: ${result.upsertedCount} added, ${PATIENT_COUNT - result.upsertedCount} already present`
+  );
   console.log('================================');
 }
 

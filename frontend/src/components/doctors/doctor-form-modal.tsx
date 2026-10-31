@@ -31,11 +31,51 @@ interface FieldConfig {
 }
 
 const FIELDS: FieldConfig[] = [
-  { name: 'name', label: 'Full name', placeholder: 'Dr. Ahmed Rahman', type: 'text', minLength: 2, maxLength: 100, autoComplete: 'off' },
-  { name: 'specialization', label: 'Specialization', placeholder: 'Cardiology', type: 'text', minLength: 2, maxLength: 100, autoComplete: 'off' },
-  { name: 'hospital', label: 'Hospital', placeholder: 'Dhaka Medical College', type: 'text', minLength: 2, maxLength: 150, autoComplete: 'off' },
-  { name: 'phone', label: 'Phone', placeholder: '01712345678', type: 'tel', minLength: 7, maxLength: 20, autoComplete: 'off' },
-  { name: 'email', label: 'Email', placeholder: 'doctor@example.com', type: 'email', minLength: 3, maxLength: 254, autoComplete: 'off' },
+  {
+    name: 'name',
+    label: 'Full name',
+    placeholder: 'Dr. Ahmed Rahman',
+    type: 'text',
+    minLength: 2,
+    maxLength: 100,
+    autoComplete: 'off',
+  },
+  {
+    name: 'specialization',
+    label: 'Specialization',
+    placeholder: 'Cardiology',
+    type: 'text',
+    minLength: 2,
+    maxLength: 100,
+    autoComplete: 'off',
+  },
+  {
+    name: 'hospital',
+    label: 'Hospital',
+    placeholder: 'Dhaka Medical College',
+    type: 'text',
+    minLength: 2,
+    maxLength: 150,
+    autoComplete: 'off',
+  },
+  {
+    name: 'phone',
+    label: 'Phone',
+    placeholder: '01712345678',
+    type: 'tel',
+    minLength: 7,
+    maxLength: 20,
+    autoComplete: 'off',
+  },
+  {
+    name: 'email',
+    label: 'Email',
+    placeholder: 'doctor@example.com',
+    type: 'email',
+    minLength: 3,
+    maxLength: 254,
+    autoComplete: 'off',
+  },
 ];
 
 function toForm(doctor: Doctor | null): DoctorForm {
@@ -49,24 +89,17 @@ function toForm(doctor: Doctor | null): DoctorForm {
 }
 
 interface DoctorFormModalProps {
-  /** `null` means "create a new doctor". */
   doctor: Doctor | null;
   onClose: () => void;
-  /** Called after a doctor is created (not edited), e.g. to jump back to page 1. */
   onCreated?: () => void;
 }
 
-/**
- * Mount this only while the dialog should be visible. Form state and mutation
- * state are then fresh every time it opens, so no stale errors or values.
- */
 export function DoctorFormModal({ doctor, onClose, onCreated }: DoctorFormModalProps) {
   const uid = useId();
   const { create, update } = useDoctorMutations();
   const [form, setForm] = useState<DoctorForm>(() => toForm(doctor));
   const optionsQuery = useDoctorFilterOptions();
 
-  // Suggest what already exists first, so "Cardiology" is reused instead of retyped differently.
   const suggestions = {
     specialization: mergeSuggestions(SUGGESTED_SPECIALIZATIONS, optionsQuery.data?.specializations),
     hospital: mergeSuggestions([], optionsQuery.data?.hospitals),
@@ -75,7 +108,10 @@ export function DoctorFormModal({ doctor, onClose, onCreated }: DoctorFormModalP
   const isSaving = create.isPending || update.isPending;
   const mutationError = create.error ?? update.error;
   const errorMessage = mutationError
-    ? getApiErrorMessage(mutationError, 'Could not save doctor. Please check the information and try again.')
+    ? getApiErrorMessage(
+        mutationError,
+        'Could not save doctor. Please check the information and try again.'
+      )
     : null;
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -133,7 +169,9 @@ export function DoctorFormModal({ doctor, onClose, onCreated }: DoctorFormModalP
                 className="input-field"
                 placeholder={field.placeholder}
                 value={form[field.name]}
-                onChange={(e) => setForm((current) => ({ ...current, [field.name]: e.target.value }))}
+                onChange={(e) =>
+                  setForm((current) => ({ ...current, [field.name]: e.target.value }))
+                }
               />
               {listItems && (
                 <datalist id={`${uid}-${field.name}-options`}>

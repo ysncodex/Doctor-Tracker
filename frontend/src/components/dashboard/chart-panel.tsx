@@ -8,7 +8,13 @@ interface ChartPanelProps {
   className?: string;
 }
 
-export function ChartPanel({ title, description, action, children, className = '' }: ChartPanelProps) {
+export function ChartPanel({
+  title,
+  description,
+  action,
+  children,
+  className = '',
+}: ChartPanelProps) {
   return (
     <section className={`surface-card p-5 sm:p-6 ${className}`}>
       <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
@@ -34,7 +40,6 @@ export function ChartEmpty({ title, description }: { title: string; description:
   );
 }
 
-/** Shared recharts styling so every chart tooltip and axis matches. */
 export const CHART_TOOLTIP_STYLE = {
   borderRadius: 10,
   border: '1px solid #e1e8e6',
@@ -44,5 +49,11 @@ export const CHART_TOOLTIP_STYLE = {
 
 export const AXIS_TICK = { fontSize: 12, fill: '#566a6d' } as const;
 
-/** Categorical palette for data series: pine, ochre, periwinkle, rose, sky, violet. */
-export const SERIES_COLORS = ['#0f6f63', '#d19a1a', '#5b6ee1', '#c2415a', '#2f9bc4', '#8a63c9'] as const;
+export const SERIES_COLORS = [
+  '#0f6f63',
+  '#d19a1a',
+  '#5b6ee1',
+  '#c2415a',
+  '#2f9bc4',
+  '#8a63c9',
+] as const;

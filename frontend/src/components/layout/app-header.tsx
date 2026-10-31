@@ -8,10 +8,6 @@ interface HeaderProps {
   onMenuClick: () => void;
 }
 
-/**
- * Mobile-only top bar. On desktop the sidebar carries navigation and the
- * account controls, so the page content can start at the top of the screen.
- */
 export function AppHeader({ onMenuClick }: HeaderProps) {
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-line bg-white/90 px-4 backdrop-blur lg:hidden">

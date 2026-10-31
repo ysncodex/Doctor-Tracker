@@ -33,7 +33,6 @@ export function AppSidebar({ open, onClose }: SidebarProps) {
   const { data: user } = useAuth();
   const logout = useLogout();
 
-  // Escape closes the mobile drawer.
   useEffect(() => {
     if (!open) return;
 
@@ -56,10 +55,6 @@ export function AppSidebar({ open, onClose }: SidebarProps) {
         />
       )}
 
-      {/*
-        On small screens the closed drawer is `invisible`, so its links leave the
-        tab order and screen-reader tree instead of hiding off-canvas but focusable.
-      */}
       <aside
         id="app-navigation"
         aria-label="Main navigation"

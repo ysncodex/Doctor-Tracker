@@ -1,14 +1,16 @@
 import type { DashboardStats } from '@/types';
 import { ChartEmpty, ChartPanel } from './chart-panel';
 
-/** Simple proportional bars. Plain HTML, so it is fully readable by screen readers. */
 export function SpecializationList({ data }: { data: DashboardStats['specializationBreakdown'] }) {
   const max = Math.max(1, ...data.map((item) => item.count));
 
   return (
     <ChartPanel title="Doctors by specialization" description="How the medical team is made up">
       {data.length === 0 ? (
-        <ChartEmpty title="No doctors yet" description="Add doctors to see their specializations." />
+        <ChartEmpty
+          title="No doctors yet"
+          description="Add doctors to see their specializations."
+        />
       ) : (
         <ul className="space-y-4">
           {data.map((item) => (
